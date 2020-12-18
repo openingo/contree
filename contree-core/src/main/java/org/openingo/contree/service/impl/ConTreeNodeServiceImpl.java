@@ -1,9 +1,9 @@
 package org.openingo.contree.service.impl;
 
-import org.openingo.contree.entity.ConTreeNodeDO;
-import org.openingo.contree.mapper.ConTreeNodeMapper;
-import org.openingo.contree.service.IConTreeNodeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.openingo.contree.base.entity.ConTreeNodeDO;
+import org.openingo.contree.mapper.ConTreeNodeMapperX;
+import org.openingo.contree.service.IConTreeNodeService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-12-18
  */
 @Service
-public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapper, ConTreeNodeDO> implements IConTreeNodeService {
+public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConTreeNodeDO> implements IConTreeNodeService {
 
 }

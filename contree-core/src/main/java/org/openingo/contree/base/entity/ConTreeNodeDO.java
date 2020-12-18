@@ -1,4 +1,4 @@
-package org.openingo.contree.entity;
+package org.openingo.contree.base.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;

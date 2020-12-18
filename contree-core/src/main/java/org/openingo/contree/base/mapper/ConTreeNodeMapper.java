@@ -1,11 +1,11 @@
-package org.openingo.contree.mapper;
+package org.openingo.contree.base.mapper;
 
-import org.openingo.contree.entity.ConTreeNodeDO;
+import org.openingo.contree.base.entity.ConTreeNodeDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- * 树节点数据 ConTreeNodeMapper 接口
+ * 树节点数据 ConTreeNodeMapperX 接口
  * </p>
  *
  * @author Qicz

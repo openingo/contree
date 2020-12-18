@@ -50,7 +50,7 @@ public class MySQLGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName("contree");
+        pc.setModuleName("contree.base");
         pc.setParent("org.openingo");
 
         mpg.setPackageInfo(pc);
