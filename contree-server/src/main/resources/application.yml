@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    username: root
+    password: dbadmin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/contree?useSSL=false&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false&maxReconnects=10
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+      idle-timeout: 60000
+      max-lifetime: 120000
+      connection-timeout: 30000
+      connection-test-query: "SELECT 1"

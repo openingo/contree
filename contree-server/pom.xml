@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.openingoo</groupId>
+    <artifactId>contree-server</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <springboot.version>2.1.8.RELEASE</springboot.version>
+        <springcloud.version>Greenwich.SR2</springcloud.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <springboot.version>2.1.8.RELEASE</springboot.version>
+        <spring-boot-x.version>2.5.2.RELEASE</spring-boot-x.version>
+        <mybatis-x.version>2.0</mybatis-x.version>
+        <jdkits.version>3.6.4</jdkits.version>
+        <contree-starter.version>1.0-SNAPSHOT</contree-starter.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--spring boot 统一依赖-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--spring cloud 统一依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${springcloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- extension -->
+            <dependency>
+                <groupId>org.openingo.spring</groupId>
+                <artifactId>spring-boot-x</artifactId>
+                <version>${spring-boot-x.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openingo.kits</groupId>
+                <artifactId>jdkits</artifactId>
+                <version>${jdkits.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openingo.kits</groupId>
+                <artifactId>mybatis-x</artifactId>
+                <version>${mybatis-x.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openingo.kits</groupId>
+                <artifactId>contree-starter</artifactId>
+                <version>${contree-starter.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openingo.kits</groupId>
+            <artifactId>contree-starter</artifactId>
+        </dependency>
+
+        <!-- extension -->
+        <dependency>
+            <groupId>org.openingo.spring</groupId>
+            <artifactId>spring-boot-x</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openingo.kits</groupId>
+            <artifactId>jdkits</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openingo.kits</groupId>
+            <artifactId>mybatis-x</artifactId>
+        </dependency>
+
+        <!--test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
+                <configuration>
+                    <mainClass>org.openingo.App</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
