@@ -2,10 +2,10 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for t_tree_con_tree_node
+-- Table structure for t_con_tree_node
 -- ----------------------------
-DROP TABLE IF EXISTS `t_tree_con_tree_node`;
-CREATE TABLE `t_tree_con_tree_node` (
+DROP TABLE IF EXISTS `t_con_tree_node`;
+CREATE TABLE `t_con_tree_node` (
   `node_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '节点id',
   `root_node_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '父节点id，默认为0',
   `tree_code` varchar(255) NOT NULL COMMENT '树code',

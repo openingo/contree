@@ -1,5 +1,6 @@
 package org.openingo.contree.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.openingo.contree.base.mapper.ConTreeNodeMapper;
 import org.openingo.contree.entity.ConTreeNodeDOX;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Qicz
  * @since 2020-12-18
  */
+@Mapper
 public interface ConTreeNodeMapperX extends ConTreeNodeMapper {
 
 }

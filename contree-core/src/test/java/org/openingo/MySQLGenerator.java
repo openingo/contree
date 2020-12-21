@@ -93,7 +93,7 @@ public class MySQLGenerator {
 
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setTablePrefix("t_tree_");
+        strategy.setTablePrefix("t_");
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setSuperEntityClass(ModelX.class);

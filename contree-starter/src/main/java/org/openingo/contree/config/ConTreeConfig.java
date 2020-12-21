@@ -9,5 +9,5 @@ public final class ConTreeConfig {
 
     public static final String PACKAGE_NAME = "org.openingo";
 
-    public static final String MAPPER_PACKAGE_NAME = "org.openingo.**.mapper";
+    public static final String MAPPER_PACKAGE_NAME = "**.mapper";
 }

@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("t_tree_con_tree_node")
+@TableName("t_con_tree_node")
 public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
 
     private static final long serialVersionUID=1L;
