@@ -68,7 +68,7 @@
     <dependencies>
         <dependency>
             <groupId>org.openingo.kits</groupId>
-            <artifactId>contree-starter</artifactId>
+            <artifactId>contree</artifactId>
         </dependency>
 
         <!-- extension -->
