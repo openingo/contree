@@ -19,7 +19,7 @@
         <spring-boot-x.version>2.5.2.RELEASE</spring-boot-x.version>
         <mybatis-x.version>2.0</mybatis-x.version>
         <jdkits.version>3.6.4</jdkits.version>
-        <contree-starter.version>1.0-SNAPSHOT</contree-starter.version>
+        <contree.version>1.0-SNAPSHOT</contree.version>
     </properties>
 
     <dependencyManagement>
@@ -59,8 +59,8 @@
 
             <dependency>
                 <groupId>org.openingo.kits</groupId>
-                <artifactId>contree-starter</artifactId>
-                <version>${contree-starter.version}</version>
+                <artifactId>contree</artifactId>
+                <version>${contree.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -2,8 +2,6 @@ package org.openingo.contree.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.openingo.contree.base.mapper.ConTreeNodeMapper;
-import org.openingo.contree.entity.ConTreeNodeDOX;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>

@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author Qicz
- * @since 2020-12-18
+ * @since 2020-12-23
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -30,16 +30,18 @@ public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
     private static final long serialVersionUID=1L;
     
 
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
+
     /**
      * 节点id
      */
-    @TableId(value = "node_id", type = IdType.AUTO)
-    private Integer nodeId;
+    private String nodeId;
 
     /**
      * 父节点id，默认为0
      */
-    private Integer rootNodeId;
+    private String rootNodeId;
 
     /**
      * 树code
@@ -50,12 +52,7 @@ public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
      * 节点图标uri
      */
     private String nodeIcon;
-
-    /**
-     * 节点颜色
-     */
-    private String nodeColor;
-
+    
     /**
      * 节点名称
      */
@@ -96,7 +93,7 @@ public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
 
     @Override
     protected Serializable pkVal() {
-        return this.nodeId;
+        return this.id;
     }
 
 }
