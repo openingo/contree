@@ -52,7 +52,7 @@ public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
      * 节点图标uri
      */
     private String nodeIcon;
-    
+
     /**
      * 节点名称
      */
