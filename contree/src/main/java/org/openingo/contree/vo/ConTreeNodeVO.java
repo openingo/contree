@@ -25,96 +25,69 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.base.entity;
+package org.openingo.contree.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import org.openingo.mybatisplus.extension.ModelX;
+import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
 
 /**
- * <p>
- * 树节点数据
- * </p>
+ * ConTreeNodeVO
  *
  * @author Qicz
- * @since 2020-12-24
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-@TableName("t_con_tree_node")
-public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
-
-    private static final long serialVersionUID=1L;
-    
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class ConTreeNodeVO extends ConTreeNodeBaseVO {
 
     /**
-     * 节点id
-     */
-    @TableId(value = "node_id", type = IdType.AUTO)
-    private Integer nodeId;
-
-    /**
-     * 父节点id，默认为0
+     * 父节点id
      */
     private Integer rootNodeId;
 
     /**
-     * 树code
+     * 节点id
      */
-    private String treeCode;
-
-    /**
-     * 节点图标uri
-     */
-    private String nodeIcon;
+    @NotNull(message = "节点id不能为空!", groups = {VoValidatorGroups.Update.class, VoValidatorGroups.Delete.class})
+    private Integer nodeId;
 
     /**
      * 节点名称
      */
+    @NotBlank(message = "名称不可为空!", groups = VoValidatorGroups.Insert.class)
     private String nodeName;
 
     /**
-     * 1可见0不可见
+     * 节点Icon
      */
-    private Boolean nodeVisible;
+    private String nodeIcon;
 
     /**
-     * 节点顺序
+     * 节点排序
      */
+    @NotNull(message = "顺序不能为空!", groups = VoValidatorGroups.Insert.class)
+    @PositiveOrZero(message = "只能取0或正整数")
     private Integer nodeOrder;
 
     /**
-     * 节点提示文字
+     * 节点Tips
      */
     private String nodeTips;
 
     /**
-     * 扩展信息【json】
+     * 节点扩展数据
      */
-    private String nodeExtension;
+    private Object nodeExtension;
 
     /**
-     * 创建时间
+     * 节点删除模式
      */
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-
-    @Override
-    protected Serializable pkVal() {
-        return this.nodeId;
-    }
-
+    @NotBlank(message = "mode不能为空!", groups = VoValidatorGroups.Delete.class)
+    @Pattern(regexp = "^cascade$|^non-sons$", message = "取值不合法，仅支持\"cascade\"或\"non-sons\"!")
+    private String mode;
 }

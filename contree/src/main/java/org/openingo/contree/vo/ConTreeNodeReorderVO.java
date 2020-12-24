@@ -25,23 +25,33 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.service.impl;
+package org.openingo.contree.vo;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.openingo.contree.base.entity.ConTreeNodeDO;
-import org.openingo.contree.mapper.ConTreeNodeMapperX;
-import org.openingo.contree.service.IConTreeNodeService;
-import org.springframework.stereotype.Service;
+import lombok.Data;
+import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
+
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * <p>
- * 树节点数据 服务实现类
- * </p>
+ * ConTreeNodeReorderVO
  *
  * @author Qicz
- * @since 2020-12-18
  */
-@Service
-public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConTreeNodeDO> implements IConTreeNodeService {
+@Data
+public class ConTreeNodeReorderVO extends ConTreeNodeBaseVO {
 
+    /**
+     * 待重排序的节点数据
+     */
+    @Size(min = 1, message = "至少有一条待重排序数据!")
+    private List<ConTreeNodeReorderItemVO> reorderNodes;
+
+    @Data
+    static
+    class ConTreeNodeReorderItemVO implements Serializable {
+        private Integer nodeId;
+        private Integer nodeOrder;
+    }
 }

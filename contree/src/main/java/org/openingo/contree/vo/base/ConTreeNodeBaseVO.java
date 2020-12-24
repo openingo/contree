@@ -25,23 +25,21 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.service.impl;
+package org.openingo.contree.vo.base;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.openingo.contree.base.entity.ConTreeNodeDO;
-import org.openingo.contree.mapper.ConTreeNodeMapperX;
-import org.openingo.contree.service.IConTreeNodeService;
-import org.springframework.stereotype.Service;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
- * <p>
- * 树节点数据 服务实现类
- * </p>
+ * ConTreeNodeBaseVO
  *
  * @author Qicz
- * @since 2020-12-18
  */
-@Service
-public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConTreeNodeDO> implements IConTreeNodeService {
+@Data
+public class ConTreeNodeBaseVO implements Serializable {
 
+    @NotBlank(message = "树编码不可为空!")
+    private String treeCode;
 }

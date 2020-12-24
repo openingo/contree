@@ -25,23 +25,49 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.service.impl;
+package org.openingo.contree.vo.list;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.openingo.contree.base.entity.ConTreeNodeDO;
-import org.openingo.contree.mapper.ConTreeNodeMapperX;
-import org.openingo.contree.service.IConTreeNodeService;
-import org.springframework.stereotype.Service;
+import lombok.Data;
+import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
+import org.openingo.jdkits.validate.ValidateKit;
+
+import javax.validation.ValidationException;
+import java.util.regex.Pattern;
 
 /**
- * <p>
- * 树节点数据 服务实现类
- * </p>
+ * ConTreeNodeListReqVO
  *
  * @author Qicz
- * @since 2020-12-18
  */
-@Service
-public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConTreeNodeDO> implements IConTreeNodeService {
+@Data
+public class ConTreeNodeListReqVO extends ConTreeNodeBaseVO {
 
+    /**
+     * 父节点id
+     */
+    private Integer rootNodeId;
+
+    /**
+     * 节点名称
+     */
+    private String nodeName;
+
+    /**
+     * 获取数据类型
+     */
+    private String fetchType;
+
+    /**
+     * 校验数据是否合法
+     */
+    public void validate() {
+        if (ValidateKit.isNull(this.getTreeCode())) {
+            throw new ValidationException("树编码不可为空!");
+        }
+        boolean check = ValidateKit.isNull(this.fetchType)
+                || !Pattern.matches("^full$|^ids$|^sons$", this.fetchType);
+        if (check) {
+            throw new ValidationException("获取类型取值不合法，仅支持\"full\"或\"ids\"或\"sons\"!");
+        }
+    }
 }

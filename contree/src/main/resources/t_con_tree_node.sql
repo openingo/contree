@@ -10,7 +10,6 @@ CREATE TABLE `t_con_tree_node` (
   `root_node_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT '父节点id，默认为0',
   `tree_code` varchar(100) NOT NULL COMMENT '树code',
   `node_icon` varchar(255) DEFAULT NULL COMMENT '节点图标uri',
---  `node_color` varchar(20) DEFAULT NULL COMMENT '节点颜色',
   `node_name` varchar(100) NOT NULL COMMENT '节点名称',
   `node_visible` tinyint(1) unsigned NOT NULL DEFAULT 1 COMMENT '1可见0不可见',
   `node_order` int(10) unsigned NOT NULL COMMENT '节点顺序',
@@ -19,6 +18,6 @@ CREATE TABLE `t_con_tree_node` (
   `create_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT current_timestamp() COMMENT '更新时间',
   PRIMARY KEY (`node_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='树节点数据';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='树节点数据';
 
 SET FOREIGN_KEY_CHECKS = 1;
