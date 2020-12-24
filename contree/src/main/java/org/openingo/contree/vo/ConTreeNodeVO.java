@@ -35,6 +35,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.PositiveOrZero;
+import java.time.LocalDateTime;
 
 /**
  * ConTreeNodeVO
@@ -90,4 +91,14 @@ public class ConTreeNodeVO extends ConTreeNodeBaseVO {
     @NotBlank(message = "mode不能为空!", groups = VoValidatorGroups.Delete.class)
     @Pattern(regexp = "^cascade$|^non-sons$", message = "取值不合法，仅支持\"cascade\"或\"non-sons\"!")
     private String mode;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
 }
