@@ -2,7 +2,6 @@ package org.openingo.contree.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.openingo.contree.base.entity.ConTreeNodeDO;
-import org.openingo.contree.entity.ConTreeNodeDOX;
 
 /**
  * <p>
