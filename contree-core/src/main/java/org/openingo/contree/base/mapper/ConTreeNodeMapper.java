@@ -1,7 +1,7 @@
 package org.openingo.contree.base.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.openingo.contree.base.entity.ConTreeNodeDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import org.openingo.contree.base.entity.ConTreeNodeDO;
  * </p>
  *
  * @author Qicz
- * @since 2020-12-23
+ * @since 2020-12-24
  */
 public interface ConTreeNodeMapper extends BaseMapper<ConTreeNodeDO> {
 

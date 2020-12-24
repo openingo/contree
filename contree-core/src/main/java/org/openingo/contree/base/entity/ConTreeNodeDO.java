@@ -1,13 +1,17 @@
 package org.openingo.contree.base.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import org.openingo.mybatisplus.extension.ModelX;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.openingo.mybatisplus.extension.ModelX;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -15,7 +19,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Qicz
- * @since 2020-12-23
+ * @since 2020-12-24
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -26,18 +30,16 @@ public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
     private static final long serialVersionUID=1L;
     
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-
     /**
      * 节点id
      */
-    private String nodeId;
+    @TableId(value = "node_id", type = IdType.AUTO)
+    private Integer nodeId;
 
     /**
      * 父节点id，默认为0
      */
-    private String rootNodeId;
+    private Integer rootNodeId;
 
     /**
      * 树code
@@ -89,7 +91,7 @@ public class ConTreeNodeDO extends ModelX<ConTreeNodeDO> {
 
     @Override
     protected Serializable pkVal() {
-        return this.id;
+        return this.nodeId;
     }
 
 }
