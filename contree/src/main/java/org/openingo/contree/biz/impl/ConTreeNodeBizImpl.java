@@ -109,7 +109,6 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
      */
     @Override
     public boolean deleteNode(String treeCode, Integer nodeId) {
-        this.conTreeNodeService.test();
         return false;
     }
 
