@@ -43,7 +43,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <springboot.version>2.1.8.RELEASE</springboot.version>
-        <spring-boot-x.version>2.5.2.RELEASE</spring-boot-x.version>
+        <spring-boot-x.version>2.7.RELEASE</spring-boot-x.version>
         <mybatis-x.version>2.0</mybatis-x.version>
         <jdkits.version>3.6.4</jdkits.version>
         <contree.version>1.0.1-SNAPSHOT</contree.version>

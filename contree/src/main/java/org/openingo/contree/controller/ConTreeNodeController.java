@@ -44,6 +44,7 @@ import javax.validation.Valid;
  *
  * @author Qicz
  */
+@Validated
 @RestController
 @RequestMapping("/tree/node")
 public class ConTreeNodeController {
