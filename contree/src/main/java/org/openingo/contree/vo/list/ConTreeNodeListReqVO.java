@@ -58,7 +58,7 @@ public class ConTreeNodeListReqVO extends ConTreeNodeBaseVO {
     @NotBlank(message = "获取类型取值不可为空.")
     @Pattern(regexp = "^full$|^ids$|^sons$", message = "获取类型取值不合法，仅支持\"full\"或\"ids\"或\"sons\"!")
     private String fetchType;
-    
+
     public Integer getRootNodeId() {
         if (ValidateKit.isNull(rootNodeId) || rootNodeId < 0) {
             return 0;
