@@ -28,11 +28,14 @@
 package org.openingo.contree.biz.impl;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.openingo.contree.base.entity.ConTreeNodeDO;
 import org.openingo.contree.biz.IConTreeNodeBiz;
 import org.openingo.contree.bo.NodeExtensionObj;
 import org.openingo.contree.constants.DeleteMode;
 import org.openingo.contree.constants.FetchType;
+import org.openingo.contree.entity.ConTreeNode;
+import org.openingo.contree.service.IConTreeNodeNotifyService;
 import org.openingo.contree.service.IConTreeNodeService;
 import org.openingo.contree.vo.ConTreeNodeReorderVO;
 import org.openingo.contree.vo.ConTreeNodeVO;
@@ -45,6 +48,7 @@ import org.openingo.spring.exception.ServiceException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,10 +59,14 @@ import java.util.stream.Collectors;
  * @author Qicz
  */
 @Service
+@Slf4j
 public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
 
     @Autowired
     private IConTreeNodeService conTreeNodeService;
+
+    @Autowired
+    private IConTreeNodeNotifyService conTreeNodeNotifyService;
 
     /**
      * 更新或新增节点
@@ -69,11 +77,15 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
     private boolean saveOrUpdateNode(ConTreeNodeVO conTreeNodeVO) {
         ConTreeNodeDO conTreeNodeDO = new ConTreeNodeDO();
         Object nodeExtension = conTreeNodeVO.getNodeExtension();
-        if (ValidateKit.isNotNull(nodeExtension)) {
-            conTreeNodeVO.setNodeExtension(JacksonKit.toJson(NodeExtensionObj.object(nodeExtension)));
-        }
         BeanUtils.copyProperties(conTreeNodeVO, conTreeNodeDO);
-        return this.conTreeNodeService.saveOrUpdate(conTreeNodeDO);
+        if (ValidateKit.isNotNull(nodeExtension)) {
+            nodeExtension = JacksonKit.toJson(NodeExtensionObj.object(nodeExtension));
+            conTreeNodeDO.setNodeExtension(nodeExtension.toString());
+        }
+        boolean ret = this.conTreeNodeService.saveOrUpdate(conTreeNodeDO);
+        // 回写nodeId
+        conTreeNodeVO.setNodeId(conTreeNodeDO.getNodeId());
+        return ret;
     }
 
     /**
@@ -81,10 +93,22 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
      * @param treeCode 树编码
      * @param nodeId 节点Id
      */
-    private void validateNode(String treeCode, Integer nodeId) {
-        if (!this.conTreeNodeService.isValidNode(treeCode, nodeId)) {
+    private ConTreeNodeDO validateNode(String treeCode, Integer nodeId) {
+        ConTreeNodeDO nodeDO = this.conTreeNodeService.getById(nodeId);
+        boolean check = ValidateKit.isNotNull(nodeDO) && treeCode.equals(nodeDO.getTreeCode());
+        if (!check) {
             throw new ServiceException("数据不合法[treeCode与nodeId不匹配，数据可能不存在].");
         }
+        return nodeDO;
+    }
+
+    /**
+     * 转为Node
+     * @param conTreeNodeVO conTreeNodeVO
+     * @return a converted node
+     */
+    private ConTreeNode toNode(ConTreeNodeVO conTreeNodeVO) {
+        return new ConTreeNode(conTreeNodeVO.getNodeId(), conTreeNodeVO.getNodeExtension());
     }
 
     /**
@@ -94,8 +118,15 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
      * @return true成功false失败
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean addNode(ConTreeNodeVO conTreeNodeVO) {
-        return this.saveOrUpdateNode(conTreeNodeVO);
+        boolean ret = this.saveOrUpdateNode(conTreeNodeVO);
+        if (!ret) {
+            log.info("==添加节点失败。(不进行变动通知)==");
+            return false;
+        }
+        this.conTreeNodeNotifyService.addNode(conTreeNodeVO.getTreeCode(), this.toNode(conTreeNodeVO));
+        return true;
     }
 
     /**
@@ -104,10 +135,25 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
      * @param conTreeNodeVO 编辑信息
      * @return true成功false失败
      */
+    @SneakyThrows
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean editNode(ConTreeNodeVO conTreeNodeVO) {
-        this.validateNode(conTreeNodeVO.getTreeCode(), conTreeNodeVO.getNodeId());
-        return this.saveOrUpdateNode(conTreeNodeVO);
+        String treeCode = conTreeNodeVO.getTreeCode();
+        ConTreeNodeDO treeNodeDO = this.validateNode(treeCode, conTreeNodeVO.getNodeId());
+        boolean ret = this.saveOrUpdateNode(conTreeNodeVO);
+        if (!ret) {
+            log.info("==编辑节点失败。(不进行变动通知)==");
+            return false;
+        }
+        // json to obj
+        String nodeExtension = treeNodeDO.getNodeExtension();
+        if (ValidateKit.isNotNull(nodeExtension)) {
+            NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
+            conTreeNodeVO.setNodeExtension(nodeExtensionObj.getObject());
+        }
+        this.conTreeNodeNotifyService.editNode(treeCode, this.toNode(conTreeNodeVO));
+        return true;
     }
 
     /**
@@ -115,27 +161,46 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
      * @param conTreeNodeVO 删除信息
      * @return true成功false失败
      */
+    @SneakyThrows
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteNode(ConTreeNodeVO conTreeNodeVO) {
         boolean ret = false;
-        List<ConTreeNodeDO> listNodes = null;
         String treeCode = conTreeNodeVO.getTreeCode();
         Integer rootNodeId = conTreeNodeVO.getRootNodeId();
-        if (DeleteMode.CASCADE.equals(conTreeNodeVO.getMode())) {
-            // 级联删除直接删除
-            listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, null, true);
-            List<Integer> ids = listNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList());
-            if (ValidateKit.isNotEmpty(ids)) {
-                ret = this.conTreeNodeService.removeByIds(ids);
-            }
-        } else {
-            // 查找是不是存在子节点，如果有则不能删除
-            listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, null,false);
-            if (ValidateKit.isNotEmpty(listNodes)) {
-                throw new ServiceException(String.format("找到%d个子节点，不可删除.", listNodes.size()));
-            }
+        // 校验是否合法
+        this.validateNode(treeCode, rootNodeId);
+        boolean recursion = DeleteMode.CASCADE.equals(conTreeNodeVO.getMode());
+        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, null, recursion);
+        // 没有节点不在进行后续处理
+        if (ValidateKit.isEmpty(listNodes)) {
+            log.info("==没有待删除的节点。(不进行变动通知)==");
+            return true;
         }
-        return ret;
+        // 非级联删除，且有子节点时不可删除：non-sons
+        if (!recursion) {
+            throw new ServiceException(String.format("找到%d个子节点，不可删除.", listNodes.size()));
+        }
+        List<Integer> ids = listNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList());
+        if (ValidateKit.isNotEmpty(ids)) {
+            ret = this.conTreeNodeService.removeByIds(ids);
+        }
+        if (!ret) {
+            log.info("==删除的节点失败。(不进行变动通知)==");
+            return false;
+        }
+        List<ConTreeNode> deleteNodes = ListKit.emptyArrayList();
+        for (ConTreeNodeDO listNode : listNodes) {
+            String nodeExtension = listNode.getNodeExtension();
+            Object obj = null;
+            if (ValidateKit.isNotNull(nodeExtension)) {
+                NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
+                obj = nodeExtensionObj.getObject();
+            }
+            deleteNodes.add(new ConTreeNode(listNode.getNodeId(), obj));
+        }
+        this.conTreeNodeNotifyService.deleteNode(treeCode, deleteNodes);
+        return true;
     }
 
     /**

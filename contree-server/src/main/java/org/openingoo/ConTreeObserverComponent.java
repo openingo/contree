@@ -29,7 +29,7 @@ package org.openingoo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openingo.contree.entity.ConTreeNode;
-import org.openingo.contree.service.notify.IConTreeObserver;
+import org.openingo.contree.notify.IConTreeObserver;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -57,5 +57,21 @@ public class ConTreeObserverComponent implements IConTreeObserver {
     @Override
     public void onTreeNodeDelete(String treeCode, List<ConTreeNode> nodes) {
         log.info("😃 treeCode = {}, nodes = {}", treeCode, nodes);
+    }
+
+    /**
+     * 新增处理响应
+     * <note>
+     * 1. 这处理与树创建在同一个事务中；
+     * 2. 业务端收到onTreeNodeCreate消息后，处理完成业务逻辑；
+     * 3. 以上都无异常，则事务正常提交。
+     * </note>
+     *
+     * @param treeCode 树编码
+     * @param node     新增node信息
+     */
+    @Override
+    public void onTreeNodeCreate(String treeCode, ConTreeNode node) {
+        log.info("😃 treeCode = {}, nodes = {}", treeCode, node);
     }
 }

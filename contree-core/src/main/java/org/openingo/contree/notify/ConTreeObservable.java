@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.service.notify;
+package org.openingo.contree.notify;
 
 import lombok.Builder;
 

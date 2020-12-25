@@ -27,6 +27,8 @@
 
 package org.openingo.contree.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -41,7 +43,7 @@ import java.io.Serializable;
  * @since 2020-12-24
  */
 @Data
-@Accessors(chain = true)
+@AllArgsConstructor
 public class ConTreeNode implements Serializable {
 
     private static final long serialVersionUID=1L;

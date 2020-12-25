@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.service.notify;
+package org.openingo.contree.notify;
 
 import org.openingo.contree.entity.ConTreeNode;
 
@@ -55,18 +55,17 @@ public interface IConTreeObserver extends Observer {
         if (o instanceof ConTreeObservable) {
             ConTreeObservable.NotifyData notifyData = (ConTreeObservable.NotifyData)arg;
             String treeCode = notifyData.treeCode;
-            List<ConTreeNode> nodes = Collections.unmodifiableList((List<ConTreeNode>) notifyData.notifyData);
             switch (notifyData.notifyType) {
                 case DELETE: {
-                    this.onTreeNodeDelete(treeCode, nodes);
+                    this.onTreeNodeDelete(treeCode, Collections.unmodifiableList((List<ConTreeNode>) notifyData.notifyData));
                 }
                     break;
                 case UPDATE: {
-                    this.onTreeNodeUpdate(treeCode, nodes);
+                    this.onTreeNodeUpdate(treeCode, (ConTreeNode)notifyData.notifyData);
                 }
                     break;
                 case CREATE: {
-                    this.onTreeNodeCreate(treeCode, nodes);
+                    this.onTreeNodeCreate(treeCode, (ConTreeNode)notifyData.notifyData);
                 }
                     break;
                 default:
@@ -83,9 +82,9 @@ public interface IConTreeObserver extends Observer {
      *     3. 以上都无异常，则事务正常提交。
      * </note>
      * @param treeCode 树编码
-     * @param nodes 删除的node信息
+     * @param node 新增node信息
      */
-    default void onTreeNodeCreate(String treeCode, List<ConTreeNode> nodes) {
+    default void onTreeNodeCreate(String treeCode, ConTreeNode node) {
 
     }
 
@@ -111,9 +110,9 @@ public interface IConTreeObserver extends Observer {
      *     3. 以上都无异常，则事务正常提交。
      * </note>
      * @param treeCode 树编码
-     * @param nodes 删除的node信息
+     * @param node 更新的node信息
      */
-    default void onTreeNodeUpdate(String treeCode, List<ConTreeNode> nodes) {
+    default void onTreeNodeUpdate(String treeCode, ConTreeNode node) {
 
     }
 }
