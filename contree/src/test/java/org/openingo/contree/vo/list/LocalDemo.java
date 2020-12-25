@@ -28,7 +28,6 @@
 package org.openingo.contree.vo.list;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.openingo.contree.vo.ConTreeNodeVO;
 import org.openingo.jdkits.collection.ListKit;
 import org.openingo.jdkits.json.JacksonKit;
 
@@ -42,19 +41,19 @@ import java.util.List;
 public class LocalDemo {
 
     public static void main(String[] args) throws JsonProcessingException {
-        List<ConTreeNodeTreeRespVO.ConTreeNodeTreeItemRespVO> data = ListKit.emptyArrayList();
+        List<ConTreeNodeListRespVO.ConTreeNodeRespVO> data = ListKit.emptyArrayList();
 
         // origin data
         int id = 1;
         for (int i = 0; i < 3; i++) {
-            ConTreeNodeTreeRespVO.ConTreeNodeTreeItemRespVO item = new ConTreeNodeTreeRespVO.ConTreeNodeTreeItemRespVO();
+            ConTreeNodeListRespVO.ConTreeNodeRespVO item = new ConTreeNodeListRespVO.ConTreeNodeRespVO();
             item.setNodeId(id);
             item.setNodeName("name"+id++);
             item.setRootNodeId(i);
             item.setNodeOrder(i);
             data.add(item);
             for (int j = 0; j < 3; j++) {
-                item = new ConTreeNodeTreeRespVO.ConTreeNodeTreeItemRespVO();
+                item = new ConTreeNodeListRespVO.ConTreeNodeRespVO();
                 item.setNodeId(id);
                 item.setNodeName("name"+id++);
                 item.setRootNodeId(i);
@@ -63,15 +62,10 @@ public class LocalDemo {
             }
         }
 
-        ConTreeNodeTreeRespVO conTreeNodeTreeRespVO = new ConTreeNodeTreeRespVO();
-        conTreeNodeTreeRespVO.setNodes(data);
-        conTreeNodeTreeRespVO.toTree();
+        ConTreeNodeListRespVO conTreeNodeListRespVO = new ConTreeNodeListRespVO();
+        conTreeNodeListRespVO.setNodes(data);
+        conTreeNodeListRespVO.redraw(true,0);
 
-        ConTreeNodeLikeListRespVO  a = new ConTreeNodeLikeListRespVO();
-
-        List<ConTreeNodeVO> aa = ListKit.emptyArrayList();
-
-        a.setNodes(aa);
-        System.out.println(JacksonKit.toJson(conTreeNodeTreeRespVO));
+        System.out.println(JacksonKit.toJson(conTreeNodeListRespVO));
     }
 }
