@@ -27,33 +27,23 @@
 
 package org.openingo.contree.vo;
 
-import lombok.Data;
-import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
-
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.List;
+import java.util.HashMap;
 
 /**
- * ConTreeNodeReorderVO
+ * ConTreeNodeVOTest
  *
  * @author Qicz
  */
-@Data
-public class ConTreeNodeReorderVO extends ConTreeNodeBaseVO {
+public class ConTreeNodeVOTest {
 
-    /**
-     * 待重排序的节点数据
-     */
-    @Size(min = 1, message = "至少有一条待重排序数据!")
-    private List<ConTreeNodeReorderItemVO> reorderNodes;
+    public static void main(String[] args) {
+        ConTreeNodeVO conTreeNodeVO = new ConTreeNodeVO();
+        conTreeNodeVO.setNodeName("nodename");
+        conTreeNodeVO.setNodeExtension(new HashMap<String, Object>(){{
+            put("a", "aaa");
+            put("b", "bbb");
+        }});
 
-    /**
-     * reorder item vo
-     */
-    @Data
-    public static class ConTreeNodeReorderItemVO implements Serializable {
-        private Integer nodeId;
-        private Integer nodeOrder;
+        System.out.println(conTreeNodeVO.getNodeExtension());
     }
 }

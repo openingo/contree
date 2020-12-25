@@ -57,6 +57,7 @@ public class ConTreeNodeController {
     @PostMapping("/add")
     @Validated(VoValidatorGroups.Insert.class)
     public RespData addNode(@Valid @RequestBody ConTreeNodeVO conTreeNodeVO) {
+        this.conTreeNodeBiz.addNode(conTreeNodeVO);
         return RespData.success();
     }
 
@@ -67,6 +68,7 @@ public class ConTreeNodeController {
     @PutMapping("/")
     @Validated(VoValidatorGroups.Update.class)
     public RespData editNode(@Valid @RequestBody ConTreeNodeVO conTreeNodeVO) {
+        this.conTreeNodeBiz.editNode(conTreeNodeVO);
         return RespData.success();
     }
 
@@ -77,6 +79,7 @@ public class ConTreeNodeController {
     @DeleteMapping("/")
     @Validated(VoValidatorGroups.Delete.class)
     public RespData deleteNode(@Valid @RequestBody ConTreeNodeVO conTreeNodeVO) {
+        this.conTreeNodeBiz.deleteNode(conTreeNodeVO.getTreeCode(), conTreeNodeVO.getNodeId());
         return RespData.success();
     }
 
@@ -86,7 +89,8 @@ public class ConTreeNodeController {
     @PostMapping("/reorder")
     @PutMapping("/reorder")
     @Validated
-    public RespData reorderNode(@Valid @RequestBody ConTreeNodeReorderVO conTreeNodeReorderVO){
+    public RespData reorderNodes(@Valid @RequestBody ConTreeNodeReorderVO conTreeNodeReorderVO){
+        this.conTreeNodeBiz.reorderNodes(conTreeNodeReorderVO);
         return RespData.success();
     }
 
@@ -96,6 +100,6 @@ public class ConTreeNodeController {
     @GetMapping("/list")
     public RespData listNode(ConTreeNodeListReqVO conTreeNodeListReqVO) {
         conTreeNodeListReqVO.validate();
-        return RespData.success();
+        return RespData.success(this.conTreeNodeBiz.listNode(conTreeNodeListReqVO));
     }
 }

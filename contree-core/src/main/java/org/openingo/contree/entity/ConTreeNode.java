@@ -25,35 +25,34 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.vo;
+package org.openingo.contree.entity;
 
 import lombok.Data;
-import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
+import lombok.experimental.Accessors;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * ConTreeNodeReorderVO
+ * <p>
+ * 树节点数据
+ * </p>
  *
  * @author Qicz
+ * @since 2020-12-24
  */
 @Data
-public class ConTreeNodeReorderVO extends ConTreeNodeBaseVO {
+@Accessors(chain = true)
+public class ConTreeNode implements Serializable {
+
+    private static final long serialVersionUID=1L;
 
     /**
-     * 待重排序的节点数据
+     * 节点id
      */
-    @Size(min = 1, message = "至少有一条待重排序数据!")
-    private List<ConTreeNodeReorderItemVO> reorderNodes;
+    private Integer nodeId;
 
     /**
-     * reorder item vo
+     * 扩展信息
      */
-    @Data
-    public static class ConTreeNodeReorderItemVO implements Serializable {
-        private Integer nodeId;
-        private Integer nodeOrder;
-    }
+    private Object nodeExtension;
 }

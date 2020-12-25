@@ -27,10 +27,51 @@
 
 package org.openingo.contree.biz;
 
+import org.openingo.contree.vo.ConTreeNodeReorderVO;
+import org.openingo.contree.vo.ConTreeNodeVO;
+import org.openingo.contree.vo.list.ConTreeNodeListReqVO;
+import org.openingo.contree.vo.list.ConTreeNodeListRespVO;
+
 /**
  * IConTreeNodeBiz
  *
  * @author Qicz
  */
 public interface IConTreeNodeBiz {
+
+    /**
+     * 添加节点
+     * @param conTreeNodeVO 添加信息
+     * @return true成功false失败
+     */
+    boolean addNode(ConTreeNodeVO conTreeNodeVO);
+
+    /**
+     * 编辑节点
+     * @param conTreeNodeVO 编辑信息
+     * @return true成功false失败
+     */
+    boolean editNode(ConTreeNodeVO conTreeNodeVO);
+
+    /**
+     * 删除节点
+     * @param treeCode 树编码
+     * @param nodeId 待删除的id
+     * @return true成功false失败
+     */
+    boolean deleteNode(String treeCode, Integer nodeId);
+
+    /**
+     * 节点重排序
+     * @param conTreeNodeReorderVO 节点重排序信息
+     * @return true成功false失败
+     */
+    boolean reorderNodes(ConTreeNodeReorderVO conTreeNodeReorderVO);
+
+    /**
+     * 获取树节点列表
+     * @param conTreeNodeListReqVO 请求参数
+     * @return 树结构
+     */
+    ConTreeNodeListRespVO listNode(ConTreeNodeListReqVO conTreeNodeListReqVO);
 }

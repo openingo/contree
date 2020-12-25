@@ -34,11 +34,11 @@ import org.openingo.jdkits.json.JacksonKit;
 import java.util.List;
 
 /**
- * LocalDemo
+ * ConTreeNodeListRespVOTest
  *
  * @author Qicz
  */
-public class LocalDemo {
+public class ConTreeNodeListRespVOTest {
 
     public static void main(String[] args) throws JsonProcessingException {
         List<ConTreeNodeListRespVO.ConTreeNodeRespVO> data = ListKit.emptyArrayList();

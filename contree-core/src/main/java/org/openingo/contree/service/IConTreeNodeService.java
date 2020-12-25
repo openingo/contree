@@ -40,4 +40,11 @@ import org.openingo.contree.base.entity.ConTreeNodeDO;
  */
 public interface IConTreeNodeService extends IService<ConTreeNodeDO> {
 
+    /**
+     * 判断节点是否合法
+     * @param treeCode 树编码
+     * @param nodeId 节点id
+     * @return true成功false失败
+     */
+    boolean isValidNode(String treeCode, Integer nodeId);
 }

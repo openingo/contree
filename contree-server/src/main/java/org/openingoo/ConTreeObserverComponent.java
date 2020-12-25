@@ -25,35 +25,37 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.vo;
+package org.openingoo;
 
-import lombok.Data;
-import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
+import lombok.extern.slf4j.Slf4j;
+import org.openingo.contree.entity.ConTreeNode;
+import org.openingo.contree.service.notify.IConTreeObserver;
+import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * ConTreeNodeReorderVO
+ * ConTreeObserverComponent
  *
  * @author Qicz
  */
-@Data
-public class ConTreeNodeReorderVO extends ConTreeNodeBaseVO {
+@Component
+@Slf4j
+public class ConTreeObserverComponent implements IConTreeObserver {
 
     /**
-     * 待重排序的节点数据
+     * 删除处理响应
+     * <note>
+     * 1. 这处理与树删除在同一个事务中；
+     * 2. 业务端收到onTreeNodeDelete消息后，处理完成业务逻辑；
+     * 3. 以上都无异常，则事务正常提交。
+     * </note>
+     *
+     * @param treeCode 树编码
+     * @param nodes    删除的node信息
      */
-    @Size(min = 1, message = "至少有一条待重排序数据!")
-    private List<ConTreeNodeReorderItemVO> reorderNodes;
-
-    /**
-     * reorder item vo
-     */
-    @Data
-    public static class ConTreeNodeReorderItemVO implements Serializable {
-        private Integer nodeId;
-        private Integer nodeOrder;
+    @Override
+    public void onTreeNodeDelete(String treeCode, List<ConTreeNode> nodes) {
+        log.info("😃 treeCode = {}, nodes = {}", treeCode, nodes);
     }
 }

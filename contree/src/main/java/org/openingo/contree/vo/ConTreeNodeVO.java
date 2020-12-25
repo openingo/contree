@@ -29,7 +29,10 @@ package org.openingo.contree.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.SneakyThrows;
 import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
+import org.openingo.jdkits.json.JacksonKit;
+import org.openingo.jdkits.validate.ValidateKit;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -101,4 +104,13 @@ public class ConTreeNodeVO extends ConTreeNodeBaseVO {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    @SneakyThrows
+    public Object getNodeExtension() {
+        if (ValidateKit.isNotNull(nodeExtension)) {
+            // to json
+            return JacksonKit.toJson(nodeExtension);
+        }
+        return nodeExtension;
+    }
 }

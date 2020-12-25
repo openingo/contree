@@ -31,7 +31,17 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.openingo.contree.base.entity.ConTreeNodeDO;
 import org.openingo.contree.mapper.ConTreeNodeMapperX;
 import org.openingo.contree.service.IConTreeNodeService;
+import org.openingo.contree.service.notify.ConTreeObservable;
+import org.openingo.contree.service.notify.IConTreeObserver;
+import org.openingo.jdkits.validate.ValidateKit;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanInitializationException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.*;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -42,6 +52,61 @@ import org.springframework.stereotype.Service;
  * @since 2020-12-18
  */
 @Service
-public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConTreeNodeDO> implements IConTreeNodeService {
+public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConTreeNodeDO> implements IConTreeNodeService, ApplicationContextAware, InitializingBean {
 
+    private ApplicationContext applicationContext;
+
+    /**
+     * 事件观察对象
+     */
+    private ConTreeObservable conTreeObservable = new ConTreeObservable();
+
+    /**
+     * 判断节点是否合法
+     *
+     * @param treeCode 树编码
+     * @param nodeId   节点id
+     * @return true成功false失败
+     */
+    @Override
+    public boolean isValidNode(String treeCode, Integer nodeId) {
+        ConTreeNodeDO nodeDO = this.getById(nodeId);
+        return ValidateKit.isNotNull(nodeDO) && treeCode.equals(nodeDO.getTreeCode());
+    }
+
+    /**
+     * Invoked by the containing {@code BeanFactory} after it has set all bean properties
+     * and satisfied {@link BeanFactoryAware}, {@code ApplicationContextAware} etc.
+     * <p>This method allows the bean instance to perform validation of its overall
+     * configuration and final initialization when all bean properties have been set.
+     *
+     * @throws Exception in the event of misconfiguration (such as failure to set an
+     *                   essential property) or if initialization fails for any other reason
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Map<String, IConTreeObserver> treeObserverMap = this.applicationContext.getBeansOfType(IConTreeObserver.class);
+        if (ValidateKit.isNotNull(treeObserverMap)) {
+            treeObserverMap.values().forEach(this.conTreeObservable::addObserver);
+        }
+    }
+
+    /**
+     * Set the ApplicationContext that this object runs in.
+     * Normally this call will be used to initialize the object.
+     * <p>Invoked after population of normal bean properties but before an init callback such
+     * as {@link InitializingBean#afterPropertiesSet()}
+     * or a custom init-method. Invoked after {@link ResourceLoaderAware#setResourceLoader},
+     * {@link ApplicationEventPublisherAware#setApplicationEventPublisher} and
+     * {@link MessageSourceAware}, if applicable.
+     *
+     * @param applicationContext the ApplicationContext object to be used by this object
+     * @throws ApplicationContextException in case of context initialization errors
+     * @throws BeansException              if thrown by application context methods
+     * @see BeanInitializationException
+     */
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 }
