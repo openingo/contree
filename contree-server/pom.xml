@@ -46,7 +46,7 @@
         <spring-boot-x.version>2.5.2.RELEASE</spring-boot-x.version>
         <mybatis-x.version>2.0</mybatis-x.version>
         <jdkits.version>3.6.4</jdkits.version>
-        <contree.version>1.0-SNAPSHOT</contree.version>
+        <contree.version>1.0.1-SNAPSHOT</contree.version>
     </properties>
 
     <dependencyManagement>
