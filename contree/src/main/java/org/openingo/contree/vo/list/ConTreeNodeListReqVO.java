@@ -31,8 +31,8 @@ import lombok.Data;
 import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
 import org.openingo.jdkits.validate.ValidateKit;
 
-import javax.validation.ValidationException;
-import java.util.regex.Pattern;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * ConTreeNodeListReqVO
@@ -55,22 +55,10 @@ public class ConTreeNodeListReqVO extends ConTreeNodeBaseVO {
     /**
      * 获取数据类型
      */
+    @NotBlank(message = "获取类型取值不可为空.")
+    @Pattern(regexp = "^full$|^ids$|^sons$", message = "获取类型取值不合法，仅支持\"full\"或\"ids\"或\"sons\"!")
     private String fetchType;
-
-    /**
-     * 校验数据是否合法
-     */
-    public void validate() {
-        if (ValidateKit.isNull(this.getTreeCode())) {
-            throw new ValidationException("树编码不可为空!");
-        }
-        boolean check = ValidateKit.isNull(this.fetchType)
-                || !Pattern.matches("^full$|^ids$|^sons$", this.fetchType);
-        if (check) {
-            throw new ValidationException("获取类型取值不合法，仅支持\"full\"或\"ids\"或\"sons\"!");
-        }
-    }
-
+    
     public Integer getRootNodeId() {
         if (ValidateKit.isNull(rootNodeId) || rootNodeId < 0) {
             return 0;

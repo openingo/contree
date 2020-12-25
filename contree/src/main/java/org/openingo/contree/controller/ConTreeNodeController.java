@@ -98,8 +98,8 @@ public class ConTreeNodeController {
      * 节点获取
      */
     @GetMapping("/list")
-    public RespData listNode(ConTreeNodeListReqVO conTreeNodeListReqVO) {
-        conTreeNodeListReqVO.validate();
+    @Validated
+    public RespData listNode(@Valid ConTreeNodeListReqVO conTreeNodeListReqVO) {
         return RespData.success(this.conTreeNodeBiz.listNodes(conTreeNodeListReqVO));
     }
 }
