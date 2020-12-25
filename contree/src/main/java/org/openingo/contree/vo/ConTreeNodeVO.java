@@ -31,10 +31,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 /**
@@ -54,6 +51,7 @@ public class ConTreeNodeVO extends ConTreeNodeBaseVO {
     /**
      * 节点id
      */
+    @Null(message = "节点id需要为空!", groups = VoValidatorGroups.Insert.class)
     @NotNull(message = "节点id不能为空!", groups = {VoValidatorGroups.Update.class, VoValidatorGroups.Delete.class})
     private Integer nodeId;
 
