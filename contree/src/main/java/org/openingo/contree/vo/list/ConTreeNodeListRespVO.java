@@ -78,7 +78,7 @@ public class ConTreeNodeListRespVO implements Serializable {
 
     @Data
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    static class ConTreeNodeRespVO extends ConTreeNodeVO implements ITreeNode<ConTreeNodeRespVO> {
+    public static class ConTreeNodeRespVO extends ConTreeNodeVO implements ITreeNode<ConTreeNodeRespVO> {
 
         /**
          * 子节点数量

@@ -33,6 +33,7 @@ import org.openingo.contree.mapper.ConTreeNodeMapperX;
 import org.openingo.contree.service.IConTreeNodeService;
 import org.openingo.contree.service.notify.ConTreeObservable;
 import org.openingo.contree.service.notify.IConTreeObserver;
+import org.openingo.jdkits.collection.ListKit;
 import org.openingo.jdkits.validate.ValidateKit;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -41,7 +42,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -72,6 +75,51 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
     public boolean isValidNode(String treeCode, Integer nodeId) {
         ConTreeNodeDO nodeDO = this.getById(nodeId);
         return ValidateKit.isNotNull(nodeDO) && treeCode.equals(nodeDO.getTreeCode());
+    }
+
+    /**
+     * 获取rootNodeId的子节点
+     *
+     * @param treeCode 树编码
+     * @param rootNodeId 父节点
+     * @param nodeName 节点名称
+     * @param recursion  是否递归查找
+     * @return 节点list
+     */
+    @Override
+    public List<ConTreeNodeDO> listNodes(String treeCode,
+                                         Integer rootNodeId,
+                                         String nodeName,
+                                         boolean recursion) {
+        List<ConTreeNodeDO> allNodes = ConTreeNodeDO.dao(ConTreeNodeDO.class)
+                .like(ValidateKit.isNotNull(nodeName), ConTreeNodeDO::getNodeName, nodeName)
+                .eq(ConTreeNodeDO::getTreeCode, treeCode)
+                .eq(ConTreeNodeDO::getRootNodeId, rootNodeId).doQuery();
+        if (!recursion) {
+            return allNodes;
+        }
+        this.recursiveListNodes(allNodes, allNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList()));
+        if (ValidateKit.isNull(allNodes)) {
+            allNodes = ListKit.emptyList();
+        }
+        return allNodes;
+    }
+
+    /**
+     * 递归获取树节点数据
+     * @param allNodes 完整数据
+     * @param rootNodeIds 父节点ids
+     */
+    private void recursiveListNodes(List<ConTreeNodeDO> allNodes, List<Integer> rootNodeIds) {
+        if (ValidateKit.isNull(rootNodeIds)) {
+            return;
+        }
+        List<ConTreeNodeDO> partNodes = ConTreeNodeDO.dao(ConTreeNodeDO.class).in(ConTreeNodeDO::getRootNodeId, rootNodeIds).doQuery();
+        if (ValidateKit.isNull(partNodes)) {
+            return;
+        }
+        allNodes.addAll(partNodes);
+        this.recursiveListNodes(allNodes, partNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList()));
     }
 
     /**

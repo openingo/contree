@@ -79,7 +79,7 @@ public class ConTreeNodeController {
     @DeleteMapping("/")
     @Validated(VoValidatorGroups.Delete.class)
     public RespData deleteNode(@Valid @RequestBody ConTreeNodeVO conTreeNodeVO) {
-        this.conTreeNodeBiz.deleteNode(conTreeNodeVO.getTreeCode(), conTreeNodeVO.getNodeId());
+        this.conTreeNodeBiz.deleteNode(conTreeNodeVO);
         return RespData.success();
     }
 
@@ -100,6 +100,6 @@ public class ConTreeNodeController {
     @GetMapping("/list")
     public RespData listNode(ConTreeNodeListReqVO conTreeNodeListReqVO) {
         conTreeNodeListReqVO.validate();
-        return RespData.success(this.conTreeNodeBiz.listNode(conTreeNodeListReqVO));
+        return RespData.success(this.conTreeNodeBiz.listNodes(conTreeNodeListReqVO));
     }
 }

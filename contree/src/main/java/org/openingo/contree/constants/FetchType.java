@@ -25,52 +25,22 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.biz;
-
-import org.openingo.contree.vo.ConTreeNodeReorderVO;
-import org.openingo.contree.vo.ConTreeNodeVO;
-import org.openingo.contree.vo.list.ConTreeNodeListReqVO;
-import org.openingo.contree.vo.list.ConTreeNodeListRespVO;
+package org.openingo.contree.constants;
 
 /**
- * IConTreeNodeBiz
+ * FetchType
  *
  * @author Qicz
  */
-public interface IConTreeNodeBiz {
+public final class FetchType {
 
     /**
-     * 添加节点
-     * @param conTreeNodeVO 添加信息
-     * @return true成功false失败
+     * 完整数据
      */
-    boolean addNode(ConTreeNodeVO conTreeNodeVO);
+    public static final String FULL = "full";
 
     /**
-     * 编辑节点
-     * @param conTreeNodeVO 编辑信息
-     * @return true成功false失败
+     * 第一级子节点
      */
-    boolean editNode(ConTreeNodeVO conTreeNodeVO);
-
-    /**
-     * 删除节点
-     * @param conTreeNodeVO 删除信息
-     * @return true成功false失败
-     */
-    boolean deleteNode(ConTreeNodeVO conTreeNodeVO);
-
-    /**
-     * 节点重排序
-     * @param conTreeNodeReorderVO 节点重排序信息
-     * @return true成功false失败
-     */
-    boolean reorderNodes(ConTreeNodeReorderVO conTreeNodeReorderVO);
-
-    /**
-     * 获取树节点列表
-     * @param conTreeNodeListReqVO 请求参数
-     * @return 树结构
-     */
-    ConTreeNodeListRespVO listNodes(ConTreeNodeListReqVO conTreeNodeListReqVO);
+    public static final String SONS = "sons";
 }

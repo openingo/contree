@@ -70,4 +70,11 @@ public class ConTreeNodeListReqVO extends ConTreeNodeBaseVO {
             throw new ValidationException("获取类型取值不合法，仅支持\"full\"或\"ids\"或\"sons\"!");
         }
     }
+
+    public Integer getRootNodeId() {
+        if (ValidateKit.isNull(rootNodeId) || rootNodeId < 0) {
+            return 0;
+        }
+        return rootNodeId;
+    }
 }

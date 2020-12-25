@@ -25,52 +25,26 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.biz;
+package org.openingo.contree.bo;
 
-import org.openingo.contree.vo.ConTreeNodeReorderVO;
-import org.openingo.contree.vo.ConTreeNodeVO;
-import org.openingo.contree.vo.list.ConTreeNodeListReqVO;
-import org.openingo.contree.vo.list.ConTreeNodeListRespVO;
+import lombok.Data;
 
 /**
- * IConTreeNodeBiz
+ * NodeExtensionObj
  *
  * @author Qicz
  */
-public interface IConTreeNodeBiz {
+@Data
+public class NodeExtensionObj {
 
     /**
-     * 添加节点
-     * @param conTreeNodeVO 添加信息
-     * @return true成功false失败
+     * extension 原始数据
      */
-    boolean addNode(ConTreeNodeVO conTreeNodeVO);
+    private Object object;
 
-    /**
-     * 编辑节点
-     * @param conTreeNodeVO 编辑信息
-     * @return true成功false失败
-     */
-    boolean editNode(ConTreeNodeVO conTreeNodeVO);
-
-    /**
-     * 删除节点
-     * @param conTreeNodeVO 删除信息
-     * @return true成功false失败
-     */
-    boolean deleteNode(ConTreeNodeVO conTreeNodeVO);
-
-    /**
-     * 节点重排序
-     * @param conTreeNodeReorderVO 节点重排序信息
-     * @return true成功false失败
-     */
-    boolean reorderNodes(ConTreeNodeReorderVO conTreeNodeReorderVO);
-
-    /**
-     * 获取树节点列表
-     * @param conTreeNodeListReqVO 请求参数
-     * @return 树结构
-     */
-    ConTreeNodeListRespVO listNodes(ConTreeNodeListReqVO conTreeNodeListReqVO);
+    public static NodeExtensionObj object(Object object) {
+        NodeExtensionObj nodeExtensionObj = new NodeExtensionObj();
+        nodeExtensionObj.object = object;
+        return nodeExtensionObj;
+    }
 }

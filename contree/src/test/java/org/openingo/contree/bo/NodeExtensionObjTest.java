@@ -25,52 +25,39 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.biz;
+package org.openingo.contree.bo;
 
-import org.openingo.contree.vo.ConTreeNodeReorderVO;
-import org.openingo.contree.vo.ConTreeNodeVO;
-import org.openingo.contree.vo.list.ConTreeNodeListReqVO;
-import org.openingo.contree.vo.list.ConTreeNodeListRespVO;
+import lombok.SneakyThrows;
+import org.openingo.jdkits.json.JacksonKit;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * IConTreeNodeBiz
+ * NodeExtensionObjTest
  *
  * @author Qicz
  */
-public interface IConTreeNodeBiz {
+public class NodeExtensionObjTest {
 
-    /**
-     * 添加节点
-     * @param conTreeNodeVO 添加信息
-     * @return true成功false失败
-     */
-    boolean addNode(ConTreeNodeVO conTreeNodeVO);
+    @SneakyThrows
+    public static void main(String[] args) {
 
-    /**
-     * 编辑节点
-     * @param conTreeNodeVO 编辑信息
-     * @return true成功false失败
-     */
-    boolean editNode(ConTreeNodeVO conTreeNodeVO);
+        Map<String, Object> a = new HashMap<>();
+        a.put("a", "aaa");
+        a.put("b", "bbb");
+        NodeExtensionObj object = NodeExtensionObj.object(a);
+        String json = JacksonKit.toJson(object);
 
-    /**
-     * 删除节点
-     * @param conTreeNodeVO 删除信息
-     * @return true成功false失败
-     */
-    boolean deleteNode(ConTreeNodeVO conTreeNodeVO);
 
-    /**
-     * 节点重排序
-     * @param conTreeNodeReorderVO 节点重排序信息
-     * @return true成功false失败
-     */
-    boolean reorderNodes(ConTreeNodeReorderVO conTreeNodeReorderVO);
+        NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(json, NodeExtensionObj.class);
+        System.out.println(nodeExtensionObj.getObject().getClass());
 
-    /**
-     * 获取树节点列表
-     * @param conTreeNodeListReqVO 请求参数
-     * @return 树结构
-     */
-    ConTreeNodeListRespVO listNodes(ConTreeNodeListReqVO conTreeNodeListReqVO);
+
+        Integer abc = 12;
+        object = NodeExtensionObj.object(abc);
+        json = JacksonKit.toJson(object);
+        nodeExtensionObj = JacksonKit.toObj(json, NodeExtensionObj.class);
+        System.out.println(nodeExtensionObj.getObject().getClass());
+    }
 }

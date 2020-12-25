@@ -30,6 +30,8 @@ package org.openingo.contree.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.openingo.contree.base.entity.ConTreeNodeDO;
 
+import java.util.List;
+
 /**
  * <p>
  * 树节点数据 服务类
@@ -47,4 +49,14 @@ public interface IConTreeNodeService extends IService<ConTreeNodeDO> {
      * @return true成功false失败
      */
     boolean isValidNode(String treeCode, Integer nodeId);
+
+    /**
+     * 获取rootNodeId的子节点
+     * @param treeCode 树编码
+     * @param rootNodeId 父节点
+     * @param nodeName 节点名称
+     * @param recursion 是否递归查找
+     * @return 节点list
+     */
+    List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, String nodeName, boolean recursion);
 }

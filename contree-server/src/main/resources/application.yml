@@ -11,3 +11,9 @@ spring:
       max-lifetime: 120000
       connection-timeout: 30000
       connection-test-query: "SELECT 1"
+
+# mybatis-plus 配置
+mybatis-plus:
+  configuration:
+    # 开启sql打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
