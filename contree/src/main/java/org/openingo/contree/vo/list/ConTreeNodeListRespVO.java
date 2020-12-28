@@ -99,10 +99,10 @@ public class ConTreeNodeListRespVO implements Serializable {
         }
 
         /**
-         * @return current node parent id
+         * @return current node root id
          */
         @Override
-        public String nodeParentId() {
+        public String rootNodeId() {
             return this.getRootNodeId().toString();
         }
 

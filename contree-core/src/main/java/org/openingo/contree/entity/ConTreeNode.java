@@ -28,9 +28,7 @@
 package org.openingo.contree.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 

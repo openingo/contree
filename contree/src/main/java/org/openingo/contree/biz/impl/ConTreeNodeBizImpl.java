@@ -123,7 +123,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         boolean ret = this.saveOrUpdateNode(conTreeNodeVO);
         if (!ret) {
             log.info("==添加节点失败。(不进行变动通知)==");
-            return false;
+            throw new ServiceException("节点添加失败，请稍后再试!");
         }
         this.conTreeNodeNotifyService.addNode(conTreeNodeVO.getTreeCode(), this.toNode(conTreeNodeVO));
         return true;
@@ -144,7 +144,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         boolean ret = this.saveOrUpdateNode(conTreeNodeVO);
         if (!ret) {
             log.info("==编辑节点失败。(不进行变动通知)==");
-            return false;
+            throw new ServiceException("编辑节点失败，请稍后再试!");
         }
         // json to obj
         String nodeExtension = treeNodeDO.getNodeExtension();
@@ -170,35 +170,37 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         Integer rootNodeId = conTreeNodeVO.getRootNodeId();
         // 校验是否合法
         this.validateNode(treeCode, rootNodeId);
+        // 获取节点数据
         boolean recursion = DeleteMode.CASCADE.equals(conTreeNodeVO.getMode());
         List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, null, recursion);
-        // 没有节点不在进行后续处理
-        if (ValidateKit.isEmpty(listNodes)) {
-            log.info("==没有待删除的节点。(不进行变动通知)==");
-            return true;
-        }
-        // 非级联删除，且有子节点时不可删除：non-sons
-        if (!recursion) {
-            throw new ServiceException(String.format("找到%d个子节点，不可删除.", listNodes.size()));
-        }
-        List<Integer> ids = listNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList());
-        if (ValidateKit.isNotEmpty(ids)) {
-            ret = this.conTreeNodeService.removeByIds(ids);
-        }
-        if (!ret) {
-            log.info("==删除的节点失败。(不进行变动通知)==");
-            return false;
-        }
+
         List<ConTreeNode> deleteNodes = ListKit.emptyArrayList();
-        for (ConTreeNodeDO listNode : listNodes) {
-            String nodeExtension = listNode.getNodeExtension();
-            Object obj = null;
-            if (ValidateKit.isNotNull(nodeExtension)) {
-                NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
-                obj = nodeExtensionObj.getObject();
+        // 判断是否进行删除操作
+        if (ValidateKit.isNotEmpty(listNodes)) {
+            // 非级联删除，且有子节点时不可删除：non-sons
+            if (!recursion) {
+                throw new ServiceException(String.format("找到%d个子节点，不可删除.", listNodes.size()));
             }
-            deleteNodes.add(new ConTreeNode(listNode.getNodeId(), obj));
+            List<Integer> ids = listNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList());
+            if (ValidateKit.isNotEmpty(ids)) {
+                ret = this.conTreeNodeService.removeByIds(ids);
+            }
+            if (!ret) {
+                log.info("==删除的节点失败。(不进行变动通知)==");
+                throw new ServiceException("删除的节点失败，请稍后再试!");
+            }
+
+            for (ConTreeNodeDO listNode : listNodes) {
+                String nodeExtension = listNode.getNodeExtension();
+                Object obj = null;
+                if (ValidateKit.isNotNull(nodeExtension)) {
+                    NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
+                    obj = nodeExtensionObj.getObject();
+                }
+                deleteNodes.add(new ConTreeNode(listNode.getNodeId(), obj));
+            }
         }
+        // 通知业务进行后续处理
         this.conTreeNodeNotifyService.deleteNode(treeCode, deleteNodes);
         return true;
     }
@@ -236,7 +238,8 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         String nodeName = conTreeNodeListReqVO.getNodeName();
         String fetchType = conTreeNodeListReqVO.getFetchType();
         // 不为sons都需要递归查询
-        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, nodeName, FetchType.FULL.equals(fetchType));
+        boolean recursion = FetchType.FULL.equals(fetchType);
+        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, nodeName, recursion);
         // 转为为vo
         ConTreeNodeListRespVO listRespVO = new ConTreeNodeListRespVO();
         List<ConTreeNodeListRespVO.ConTreeNodeRespVO> treeRespNodes = ListKit.emptyArrayList();

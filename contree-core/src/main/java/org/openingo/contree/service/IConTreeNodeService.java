@@ -43,12 +43,13 @@ import java.util.List;
 public interface IConTreeNodeService extends IService<ConTreeNodeDO> {
 
     /**
-     * 判断节点是否合法
+     * 获取rootNodeId的子节点
      * @param treeCode 树编码
-     * @param nodeId 节点id
-     * @return true成功false失败
+     * @param rootNodeId 父节点
+     * @param recursion 是否递归查找
+     * @return 节点list
      */
-    boolean isValidNode(String treeCode, Integer nodeId);
+    List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, boolean recursion);
 
     /**
      * 获取rootNodeId的子节点
