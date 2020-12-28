@@ -23,9 +23,9 @@
   - Response
 
     ```json
-  {
+    {
     	"sc": 0,
-  	"sm": "ok"
+    	"sm": "ok"
     }
     ```
 
@@ -54,9 +54,9 @@
   - Response
 
     ```json
-  {
+    {
     	"sc": 0,
-  	"sm": "ok"
+    	"sm": "ok"
     }
     ```
 
@@ -79,9 +79,9 @@
   - Response
 
     ```json
-  {
+    {
     	"sc": 0,
-  	"sm": "ok"
+    	"sm": "ok"
     }
     ```
 
