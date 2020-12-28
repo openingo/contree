@@ -34,7 +34,7 @@
     <groupId>org.openingo.kits</groupId>
     <artifactId>contree-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>ConTree</name>
     <description>The Common Tree - ConTree</description>
     <url>https://github.com/OpeningO/contree</url>
