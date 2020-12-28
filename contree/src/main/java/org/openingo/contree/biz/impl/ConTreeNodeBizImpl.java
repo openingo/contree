@@ -148,7 +148,9 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         }
         // json to obj
         String nodeExtension = treeNodeDO.getNodeExtension();
-        if (ValidateKit.isNotNull(nodeExtension)) {
+        // 此次未变更nodeExtension，使用历史数据
+        if (ValidateKit.isNull(conTreeNodeVO.getNodeExtension())
+                && ValidateKit.isNotNull(nodeExtension)) {
             NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
             conTreeNodeVO.setNodeExtension(nodeExtensionObj.getObject());
         }
