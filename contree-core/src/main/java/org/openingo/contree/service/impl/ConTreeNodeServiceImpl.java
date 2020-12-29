@@ -54,7 +54,6 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
      *
      * @param treeCode   树编码
      * @param rootNodeId 父节点
-     * @param recursion  是否递归查找
      * @return 节点list
      */
     @Override
@@ -66,23 +65,25 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
 
     /**
      * 获取rootNodeId的子节点
-     *
+     * <note>父节点，为0时即根节点时，不必进行递归处理</note>
+     * 1. rootNodeId = 0, recursion = true -> FULL or CASCADE
+     * 2. rootNodeId = 0, recursion = false -> SONS or NON-SONS
+     * 3. rootNodeId != 0, recursion = true -> FULL or CASCADE
+     * 4. rootNodeId != 0, recursion = false -> SONS or NON-SONS
      * @param treeCode 树编码
      * @param rootNodeId 父节点
-     * @param nodeName 节点名称
-     * @param recursion  是否递归查找
+     * @param nodeName 删除模式
+     * @param recursion 是否递归查找
      * @return 节点list
      */
     @Override
-    public List<ConTreeNodeDO> listNodes(String treeCode,
-                                         Integer rootNodeId,
-                                         String nodeName,
-                                         boolean recursion) {
+    public List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, String nodeName, boolean recursion) {
+        boolean rootNodeZeroId = Integer.valueOf(0).equals(rootNodeId);
         List<ConTreeNodeDO> allNodes = ConTreeNodeDO.dao(ConTreeNodeDO.class)
                 .like(ValidateKit.isNotNull(nodeName), ConTreeNodeDO::getNodeName, nodeName)
                 .eq(ConTreeNodeDO::getTreeCode, treeCode)
-                .eq(ConTreeNodeDO::getRootNodeId, rootNodeId).doQuery();
-        if (!recursion) {
+                .eq(!rootNodeZeroId || !recursion, ConTreeNodeDO::getRootNodeId, rootNodeId).doQuery();
+        if (rootNodeZeroId || !recursion) {
             return allNodes;
         }
         this.recursiveListNodes(allNodes, allNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList()));

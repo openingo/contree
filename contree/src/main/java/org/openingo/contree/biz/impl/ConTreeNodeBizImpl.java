@@ -174,7 +174,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         this.validateNode(treeCode, rootNodeId);
         // 获取节点数据
         boolean recursion = DeleteMode.CASCADE.equals(conTreeNodeVO.getMode());
-        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, null, recursion);
+        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, recursion);
 
         List<ConTreeNode> deleteNodes = ListKit.emptyArrayList();
         // 判断是否进行删除操作
@@ -238,10 +238,8 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         String treeCode = conTreeNodeListReqVO.getTreeCode();
         Integer rootNodeId = conTreeNodeListReqVO.getRootNodeId();
         String nodeName = conTreeNodeListReqVO.getNodeName();
-        String fetchType = conTreeNodeListReqVO.getFetchType();
-        // 不为sons都需要递归查询
-        boolean recursion = FetchType.FULL.equals(fetchType);
-        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, nodeName, recursion);
+        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, nodeName,
+                FetchType.FULL.equals(conTreeNodeListReqVO.getFetchType()));
         // 转为为vo
         ConTreeNodeListRespVO listRespVO = new ConTreeNodeListRespVO();
         List<ConTreeNodeListRespVO.ConTreeNodeRespVO> treeRespNodes = ListKit.emptyArrayList();
