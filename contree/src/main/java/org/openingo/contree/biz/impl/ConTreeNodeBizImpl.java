@@ -220,6 +220,10 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         conTreeNodeReorderVO.getReorderNodes().forEach(item -> {
             ConTreeNodeDO conTreeNodeDO = new ConTreeNodeDO();
             conTreeNodeDO.setNodeId(item.getNodeId());
+            Integer rootNodeId = item.getRootNodeId();
+            if (ValidateKit.isNotNull(rootNodeId)) {
+                conTreeNodeDO.setRootNodeId(rootNodeId);
+            }
             conTreeNodeDO.setNodeOrder(item.getNodeOrder());
             treeNodes.add(conTreeNodeDO);
         });

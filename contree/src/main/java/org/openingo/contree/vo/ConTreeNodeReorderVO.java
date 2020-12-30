@@ -54,6 +54,7 @@ public class ConTreeNodeReorderVO extends ConTreeNodeBaseVO {
     @Data
     public static class ConTreeNodeReorderItemVO implements Serializable {
         private Integer nodeId;
+        private Integer rootNodeId;
         private Integer nodeOrder;
     }
 }
