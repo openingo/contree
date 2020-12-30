@@ -79,14 +79,18 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
     @Override
     public List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, String nodeName, boolean recursion) {
         boolean rootNodeZeroId = Integer.valueOf(0).equals(rootNodeId);
+        boolean queryCondition = !rootNodeZeroId || !recursion;
         List<ConTreeNodeDO> allNodes = ConTreeNodeDO.dao(ConTreeNodeDO.class)
                 .like(ValidateKit.isNotNull(nodeName), ConTreeNodeDO::getNodeName, nodeName)
                 .eq(ConTreeNodeDO::getTreeCode, treeCode)
-                .eq(!rootNodeZeroId || !recursion, ConTreeNodeDO::getRootNodeId, rootNodeId).doQuery();
+                .eq(queryCondition, ConTreeNodeDO::getRootNodeId, rootNodeId)
+                .or(queryCondition)
+                .eq(queryCondition, ConTreeNodeDO::getNodeId, rootNodeId)
+                .doQuery();
         if (rootNodeZeroId || !recursion) {
             return allNodes;
         }
-        this.recursiveListNodes(allNodes, allNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList()));
+        this.recursiveListNodes(allNodes, allNodes.stream().map(ConTreeNodeDO::getNodeId).distinct().collect(Collectors.toList()));
         if (ValidateKit.isNull(allNodes)) {
             allNodes = ListKit.emptyList();
         }
@@ -107,6 +111,6 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
             return;
         }
         allNodes.addAll(partNodes);
-        this.recursiveListNodes(allNodes, partNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList()));
+        this.recursiveListNodes(allNodes, partNodes.stream().map(ConTreeNodeDO::getNodeId).distinct().collect(Collectors.toList()));
     }
 }

@@ -177,7 +177,6 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         // 获取节点数据
         boolean recursion = DeleteMode.CASCADE.equals(conTreeNodeVO.getMode());
         List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, nodeId, recursion);
-
         List<ConTreeNode> deleteNodes = ListKit.emptyArrayList();
         // 判断是否进行删除操作
         if (ValidateKit.isNotEmpty(listNodes)) {
