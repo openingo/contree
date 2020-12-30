@@ -50,17 +50,32 @@ import java.util.stream.Collectors;
 public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConTreeNodeDO> implements IConTreeNodeService {
 
     /**
+     * 获取rootNodeId的子节点，包括自身
+     *
+     * @param treeCode   树编码
+     * @param rootNodeId 父节点
+     * @param recursion  是否递归查找
+     * @return 节点list
+     */
+    @Override
+    public List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, boolean recursion) {
+        return this.listNodes(treeCode, rootNodeId, recursion, true);
+    }
+
+    /**
      * 获取rootNodeId的子节点
      *
      * @param treeCode   树编码
      * @param rootNodeId 父节点
+     * @param includeSelf 是否包括自身
      * @return 节点list
      */
     @Override
     public List<ConTreeNodeDO> listNodes(String treeCode,
                                          Integer rootNodeId,
-                                         boolean recursion) {
-        return this.listNodes(treeCode, rootNodeId, null, recursion);
+                                         boolean recursion,
+                                         boolean includeSelf) {
+        return this.listNodes(treeCode, rootNodeId, null, recursion, includeSelf);
     }
 
     /**
@@ -74,18 +89,23 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
      * @param rootNodeId 父节点
      * @param nodeName 删除模式
      * @param recursion 是否递归查找
+     * @param includeSelf 是否包括自身
      * @return 节点list
      */
     @Override
-    public List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, String nodeName, boolean recursion) {
+    public List<ConTreeNodeDO> listNodes(String treeCode,
+                                         Integer rootNodeId,
+                                         String nodeName,
+                                         boolean recursion,
+                                         boolean includeSelf) {
         boolean rootNodeZeroId = Integer.valueOf(0).equals(rootNodeId);
         boolean queryCondition = !rootNodeZeroId || !recursion;
         List<ConTreeNodeDO> allNodes = ConTreeNodeDO.dao(ConTreeNodeDO.class)
                 .like(ValidateKit.isNotNull(nodeName), ConTreeNodeDO::getNodeName, nodeName)
                 .eq(ConTreeNodeDO::getTreeCode, treeCode)
                 .eq(queryCondition, ConTreeNodeDO::getRootNodeId, rootNodeId)
-                .or(queryCondition)
-                .eq(queryCondition, ConTreeNodeDO::getNodeId, rootNodeId)
+                .or(queryCondition && includeSelf)
+                .eq(queryCondition && includeSelf, ConTreeNodeDO::getNodeId, rootNodeId)
                 .doQuery();
         if (rootNodeZeroId || !recursion) {
             return allNodes;

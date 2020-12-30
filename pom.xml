@@ -74,7 +74,7 @@
         <springboot.version>2.1.8.RELEASE</springboot.version>
         <spring-boot-x.version>2.7.RELEASE</spring-boot-x.version>
         <mybatis-x.version>2.0</mybatis-x.version>
-        <jdkits.version>3.6.6</jdkits.version>
+        <jdkits.version>3.6.7</jdkits.version>
         <springboot.mybatis.version>2.1.0</springboot.mybatis.version>
         <github.pagehelper>1.2.12</github.pagehelper>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
@@ -164,14 +164,17 @@
         <dependency>
             <groupId>org.openingo.spring</groupId>
             <artifactId>spring-boot-x</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openingo.kits</groupId>
             <artifactId>jdkits</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.openingo.kits</groupId>
             <artifactId>mybatis-x</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!--test-->

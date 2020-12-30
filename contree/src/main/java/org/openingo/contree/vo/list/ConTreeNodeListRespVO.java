@@ -69,7 +69,7 @@ public class ConTreeNodeListRespVO implements Serializable {
                 if (zero.equals(rootNodeId)) {
                     this.nodes = TreeBuilder.buildTree(TreeBuilder.RootNode.ZERO_ID, this.nodes, Comparator.comparingInt(ConTreeNodeVO::getNodeOrder));
                 } else {
-                    this.nodes = TreeBuilder.buildTree(rootNodeId.toString(), this.nodes, Comparator.comparingInt(ConTreeNodeVO::getNodeOrder));
+                    this.nodes = TreeBuilder.buildTree(rootNodeId.toString(), this.nodes, false, Comparator.comparingInt(ConTreeNodeVO::getNodeOrder));
                 }
             }
         }
@@ -94,7 +94,7 @@ public class ConTreeNodeListRespVO implements Serializable {
          * @return current node id
          */
         @Override
-        public String nodeId() {
+        public String treeNodeId() {
             return this.getNodeId().toString();
         }
 
@@ -102,7 +102,7 @@ public class ConTreeNodeListRespVO implements Serializable {
          * @return current node root id
          */
         @Override
-        public String rootNodeId() {
+        public String treeRootNodeId() {
             return this.getRootNodeId().toString();
         }
 

@@ -43,7 +43,7 @@ import java.util.List;
 public interface IConTreeNodeService extends IService<ConTreeNodeDO> {
 
     /**
-     * 获取rootNodeId的子节点
+     * 获取rootNodeId的子节点，包括自身
      * @param treeCode 树编码
      * @param rootNodeId 父节点
      * @param recursion 是否递归查找
@@ -55,9 +55,20 @@ public interface IConTreeNodeService extends IService<ConTreeNodeDO> {
      * 获取rootNodeId的子节点
      * @param treeCode 树编码
      * @param rootNodeId 父节点
-     * @param nodeName 节点名称
      * @param recursion 是否递归查找
+     * @param includeSelf 是否包括自身
      * @return 节点list
      */
-    List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, String nodeName, boolean recursion);
+    List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, boolean recursion, boolean includeSelf);
+
+    /**
+     * 获取rootNodeId的子节点
+     * @param treeCode 树编码
+     * @param rootNodeId 父节点
+     * @param nodeName 节点名称
+     * @param recursion 是否递归查找
+     * @param includeSelf 是否包括自身
+     * @return 节点list
+     */
+    List<ConTreeNodeDO> listNodes(String treeCode, Integer rootNodeId, String nodeName, boolean recursion, boolean includeSelf);
 }

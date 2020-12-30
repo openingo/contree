@@ -25,52 +25,44 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.biz;
+package org.openingo.contree.biz.impl;
 
-import org.openingo.contree.vo.ConTreeNodeVO;
-import org.openingo.contree.vo.list.ConTreeNodeListReqVO;
-import org.openingo.contree.vo.list.ConTreeNodeListRespVO;
-import org.openingo.contree.vo.reorder.ConTreeNodeReorderVO;
+import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * IConTreeNodeBiz
+ * ConTreeNodeBizImplTest
  *
  * @author Qicz
  */
-public interface IConTreeNodeBiz {
+public class ConTreeNodeBizImplTest {
 
-    /**
-     * 添加节点
-     * @param conTreeNodeVO 添加信息
-     * @return true成功false失败
-     */
-    boolean addNode(ConTreeNodeVO conTreeNodeVO);
+    @Data
+    private static class Model {
+        Integer id;
+    }
 
-    /**
-     * 编辑节点
-     * @param conTreeNodeVO 编辑信息
-     * @return true成功false失败
-     */
-    boolean editNode(ConTreeNodeVO conTreeNodeVO);
+    public static void p(Integer id) {
+        List<Model> models = new ArrayList<>();
+        for (int i = id; i < 5; i++) {
+            Model model = new Model();
+            model.setId(i);
+            models.add(model);
+        }
+        System.out.println("id="+id+", origin="+models);
+        models = models.stream().filter(m -> {
+            System.out.println("invking.....");
+            return Integer.valueOf(0).equals(id) || !id.equals(m.id);
+        }).collect(Collectors.toList());
+        System.out.println("id="+id+", filter="+models);
+    }
 
-    /**
-     * 删除节点
-     * @param conTreeNodeVO 删除信息
-     * @return true成功false失败
-     */
-    boolean deleteNode(ConTreeNodeVO conTreeNodeVO);
-
-    /**
-     * 节点重排序
-     * @param conTreeNodeReorderVO 节点重排序信息
-     * @return true成功false失败
-     */
-    boolean reorderNodes(ConTreeNodeReorderVO conTreeNodeReorderVO);
-
-    /**
-     * 获取树节点列表
-     * @param conTreeNodeListReqVO 请求参数
-     * @return 树结构
-     */
-    ConTreeNodeListRespVO listNodes(ConTreeNodeListReqVO conTreeNodeListReqVO);
+    public static void main(String[] args) {
+        Integer id = 0;
+        p(id++);
+        p(id);
+    }
 }

@@ -254,8 +254,9 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         String treeCode = conTreeNodeListReqVO.getTreeCode();
         Integer rootNodeId = conTreeNodeListReqVO.getRootNodeId();
         String nodeName = conTreeNodeListReqVO.getNodeName();
-        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, nodeName,
-                FetchType.FULL.equals(conTreeNodeListReqVO.getFetchType()));
+        // 不包括自节点
+        boolean recursion = FetchType.FULL.equals(conTreeNodeListReqVO.getFetchType());
+        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, nodeName, recursion, false);
         // 转为为vo
         ConTreeNodeListRespVO listRespVO = new ConTreeNodeListRespVO();
         List<ConTreeNodeListRespVO.ConTreeNodeRespVO> treeRespNodes = ListKit.emptyArrayList();
