@@ -171,12 +171,12 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
     public boolean deleteNode(ConTreeNodeVO conTreeNodeVO) {
         boolean ret = false;
         String treeCode = conTreeNodeVO.getTreeCode();
-        Integer rootNodeId = conTreeNodeVO.getRootNodeId();
+        Integer nodeId = conTreeNodeVO.getNodeId();
         // 校验是否合法
-        this.validateNode(treeCode, rootNodeId);
+        this.validateNode(treeCode, nodeId);
         // 获取节点数据
         boolean recursion = DeleteMode.CASCADE.equals(conTreeNodeVO.getMode());
-        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, rootNodeId, recursion);
+        List<ConTreeNodeDO> listNodes = this.conTreeNodeService.listNodes(treeCode, nodeId, recursion);
 
         List<ConTreeNode> deleteNodes = ListKit.emptyArrayList();
         // 判断是否进行删除操作
@@ -209,6 +209,11 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         return true;
     }
 
+    /**
+     * 节点重排序
+     * @param reorderNodes 待重排序的节点信息
+     * @return true成功false失败
+     */
     private boolean reorderNodes(List<ConTreeNodeReorderItemVO> reorderNodes) {
         if (ValidateKit.isNull(reorderNodes)) {
             return true;
