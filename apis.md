@@ -16,9 +16,18 @@
       	"nodeName": "节点名称，必填", 
       	"nodeOrder": "节点初始顺序，必填，数字", 
       	"nodeTips": "",
-      	"nodeExtension": {}
+      	"nodeExtension": {},
+        "reorderNodes":[
+          {
+      			"nodeId": "树节点id，必填，数字", 
+            "rootNodeId":"父节点id，变动时提供",
+      			"nodeOrder": "树节点新顺序，必填，数字"
+      		}
+        ]
       }
       ```
+      
+      > 当节点在树的中间某处添加时，需要提供reorderNodes，便于将后续节点的顺序一并更新。
 
   - Response
 

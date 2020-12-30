@@ -37,10 +37,11 @@ import org.openingo.contree.constants.FetchType;
 import org.openingo.contree.entity.ConTreeNode;
 import org.openingo.contree.service.IConTreeNodeNotifyService;
 import org.openingo.contree.service.IConTreeNodeService;
-import org.openingo.contree.vo.ConTreeNodeReorderVO;
 import org.openingo.contree.vo.ConTreeNodeVO;
 import org.openingo.contree.vo.list.ConTreeNodeListReqVO;
 import org.openingo.contree.vo.list.ConTreeNodeListRespVO;
+import org.openingo.contree.vo.reorder.ConTreeNodeReorderItemVO;
+import org.openingo.contree.vo.reorder.ConTreeNodeReorderVO;
 import org.openingo.jdkits.collection.ListKit;
 import org.openingo.jdkits.json.JacksonKit;
 import org.openingo.jdkits.validate.ValidateKit;
@@ -125,6 +126,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
             log.info("==添加节点失败。(不进行变动通知)==");
             throw new ServiceException("节点添加失败，请稍后再试!");
         }
+        this.reorderNodes(conTreeNodeVO.getReorderNodes());
         this.conTreeNodeNotifyService.addNode(conTreeNodeVO.getTreeCode(), this.toNode(conTreeNodeVO));
         return true;
     }
@@ -207,17 +209,12 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         return true;
     }
 
-    /**
-     * 节点重排序
-     * TODO 校验数据合法性 String treeCode = conTreeNodeReorderVO.getTreeCode();
-     * @param conTreeNodeReorderVO 节点重排序信息
-     * @return true成功false失败
-     */
-    @Override
-    public boolean reorderNodes(ConTreeNodeReorderVO conTreeNodeReorderVO) {
+    private boolean reorderNodes(List<ConTreeNodeReorderItemVO> reorderNodes) {
+        if (ValidateKit.isNull(reorderNodes)) {
+            return true;
+        }
         List<ConTreeNodeDO> treeNodes = ListKit.emptyArrayList();
-        // getReorderNodes 已在vo中校验，不可能为null或empty
-        conTreeNodeReorderVO.getReorderNodes().forEach(item -> {
+        reorderNodes.forEach(item -> {
             ConTreeNodeDO conTreeNodeDO = new ConTreeNodeDO();
             conTreeNodeDO.setNodeId(item.getNodeId());
             Integer rootNodeId = item.getRootNodeId();
@@ -228,6 +225,17 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
             treeNodes.add(conTreeNodeDO);
         });
         return this.conTreeNodeService.updateBatchById(treeNodes);
+    }
+
+    /**
+     * 节点重排序
+     * TODO 校验数据合法性 String treeCode = conTreeNodeReorderVO.getTreeCode();
+     * @param conTreeNodeReorderVO 节点重排序信息
+     * @return true成功false失败
+     */
+    @Override
+    public boolean reorderNodes(ConTreeNodeReorderVO conTreeNodeReorderVO) {
+        return this.reorderNodes(conTreeNodeReorderVO.getReorderNodes());
     }
 
     /**

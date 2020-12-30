@@ -25,13 +25,12 @@
  * SOFTWARE.
  */
 
-package org.openingo.contree.vo;
+package org.openingo.contree.vo.reorder;
 
 import lombok.Data;
 import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
 
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -47,14 +46,4 @@ public class ConTreeNodeReorderVO extends ConTreeNodeBaseVO {
      */
     @Size(min = 1, message = "至少有一条待重排序数据!")
     private List<ConTreeNodeReorderItemVO> reorderNodes;
-
-    /**
-     * reorder item vo
-     */
-    @Data
-    public static class ConTreeNodeReorderItemVO implements Serializable {
-        private Integer nodeId;
-        private Integer rootNodeId;
-        private Integer nodeOrder;
-    }
 }

@@ -30,9 +30,11 @@ package org.openingo.contree.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.openingo.contree.vo.base.ConTreeNodeBaseVO;
+import org.openingo.contree.vo.reorder.ConTreeNodeReorderItemVO;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * ConTreeNodeVO
@@ -99,4 +101,9 @@ public class ConTreeNodeVO extends ConTreeNodeBaseVO {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 重排序
+     */
+    private List<ConTreeNodeReorderItemVO> reorderNodes;
 }
