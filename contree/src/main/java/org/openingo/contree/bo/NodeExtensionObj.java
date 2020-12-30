@@ -40,11 +40,11 @@ public class NodeExtensionObj {
     /**
      * extension 原始数据
      */
-    private Object object;
+    private Object obj;
 
     public static NodeExtensionObj object(Object object) {
         NodeExtensionObj nodeExtensionObj = new NodeExtensionObj();
-        nodeExtensionObj.object = object;
+        nodeExtensionObj.obj = object;
         return nodeExtensionObj;
     }
 }

@@ -154,7 +154,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         if (ValidateKit.isNull(conTreeNodeVO.getNodeExtension())
                 && ValidateKit.isNotNull(nodeExtension)) {
             NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
-            conTreeNodeVO.setNodeExtension(nodeExtensionObj.getObject());
+            conTreeNodeVO.setNodeExtension(nodeExtensionObj.getObj());
         }
         this.conTreeNodeNotifyService.editNode(treeCode, this.toNode(conTreeNodeVO));
         return true;
@@ -198,7 +198,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
                 Object obj = null;
                 if (ValidateKit.isNotNull(nodeExtension)) {
                     NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
-                    obj = nodeExtensionObj.getObject();
+                    obj = nodeExtensionObj.getObj();
                 }
                 deleteNodes.add(new ConTreeNode(listNode.getNodeId(), obj));
             }
@@ -266,7 +266,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
             String nodeExtension = conTreeNodeDO.getNodeExtension();
             if (ValidateKit.isNotNull(nodeExtension)) {
                 NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(nodeExtension, NodeExtensionObj.class);
-                respVO.setNodeExtension(nodeExtensionObj.getObject());
+                respVO.setNodeExtension(nodeExtensionObj.getObj());
             }
             treeRespNodes.add(respVO);
         }

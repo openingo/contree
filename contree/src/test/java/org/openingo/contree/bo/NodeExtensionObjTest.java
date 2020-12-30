@@ -51,13 +51,13 @@ public class NodeExtensionObjTest {
 
 
         NodeExtensionObj nodeExtensionObj = JacksonKit.toObj(json, NodeExtensionObj.class);
-        System.out.println(nodeExtensionObj.getObject().getClass());
+        System.out.println(nodeExtensionObj.getObj().getClass());
 
 
         Integer abc = 12;
         object = NodeExtensionObj.object(abc);
         json = JacksonKit.toJson(object);
         nodeExtensionObj = JacksonKit.toObj(json, NodeExtensionObj.class);
-        System.out.println(nodeExtensionObj.getObject().getClass());
+        System.out.println(nodeExtensionObj.getObj().getClass());
     }
 }
