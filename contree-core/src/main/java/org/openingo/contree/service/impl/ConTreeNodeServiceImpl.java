@@ -110,7 +110,7 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
         if (rootNodeZeroId || !recursion) {
             return allNodes;
         }
-        this.recursiveListNodes(allNodes, allNodes.stream().map(ConTreeNodeDO::getNodeId).distinct().collect(Collectors.toList()));
+        this.recursiveListNodes(allNodes, allNodes.stream().filter(node -> !rootNodeId.equals(node.getNodeId())).map(ConTreeNodeDO::getNodeId).distinct().collect(Collectors.toList()));
         if (ValidateKit.isNull(allNodes)) {
             allNodes = ListKit.emptyList();
         }
@@ -131,6 +131,6 @@ public class ConTreeNodeServiceImpl extends ServiceImpl<ConTreeNodeMapperX, ConT
             return;
         }
         allNodes.addAll(partNodes);
-        this.recursiveListNodes(allNodes, partNodes.stream().map(ConTreeNodeDO::getNodeId).distinct().collect(Collectors.toList()));
+        this.recursiveListNodes(allNodes, partNodes.stream().filter(node -> !rootNodeIds.contains(node.getNodeId())).map(ConTreeNodeDO::getNodeId).distinct().collect(Collectors.toList()));
     }
 }
