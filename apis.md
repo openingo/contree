@@ -20,7 +20,6 @@
         "reorderNodes":[
           {
       			"nodeId": "树节点id，必填，数字", 
-            "rootNodeId":"父节点id，变动时提供",
       			"nodeOrder": "树节点新顺序，必填，数字"
       		}
         ]

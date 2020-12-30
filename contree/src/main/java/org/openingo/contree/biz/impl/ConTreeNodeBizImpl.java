@@ -96,7 +96,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
      */
     private ConTreeNodeDO validateNode(String treeCode, Integer nodeId) {
         ConTreeNodeDO nodeDO = this.conTreeNodeService.getById(nodeId);
-        boolean check = ValidateKit.isNull(nodeDO) || treeCode.equals(nodeDO.getTreeCode());
+        boolean check = ValidateKit.isNull(nodeDO) || !treeCode.equals(nodeDO.getTreeCode());
         if (check) {
             throw new ServiceException("数据不合法[treeCode与nodeId不匹配，数据可能不存在].");
         }
