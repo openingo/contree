@@ -2,8 +2,8 @@
 
 >  `contree` 发音与`country`,意为：乡间美，乡间树多。
 
-![maven](https://img.shields.io/maven-central/v/org.openingo.kits/contree.svg)
-![nexus](https://img.shields.io/nexus/s/org.openingo.kits/contree-parent?label=LTS%E7%89%88%E6%9C%AC&server=https%3A%2F%2Foss.sonatype.org&style=plastic)
+![maven中央仓库](https://img.shields.io/maven-central/v/org.openingo.kits/contree.svg)
+![LTS版本](https://img.shields.io/nexus/s/org.openingo.kits/contree-parent?label=LTS%E7%89%88%E6%9C%AC&server=https%3A%2F%2Foss.sonatype.org&style=plastic)
 ### 特性
 
 - 树节点添加、修改；
