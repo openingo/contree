@@ -38,7 +38,19 @@ import java.io.Serializable;
  */
 @Data
 public class ConTreeNodeReorderItemVO implements Serializable {
+
+    /**
+     * node id
+     */
     private Integer nodeId;
+
+    /**
+     * root Node Id
+     */
     private Integer rootNodeId;
+
+    /**
+     * node order
+     */
     private Integer nodeOrder;
 }

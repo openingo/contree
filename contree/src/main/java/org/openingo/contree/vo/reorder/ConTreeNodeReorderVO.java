@@ -44,6 +44,6 @@ public class ConTreeNodeReorderVO extends ConTreeNodeBaseVO {
     /**
      * 待重排序的节点数据
      */
-    @Size(min = 1, message = "至少有一条待重排序数据!")
+    @Size(min = 1, message = "至少需要一条待重排序数据!")
     private List<ConTreeNodeReorderItemVO> reorderNodes;
 }
