@@ -182,8 +182,7 @@ public class ConTreeNodeBizImpl implements IConTreeNodeBiz {
         if (ValidateKit.isNotEmpty(listNodes)) {
             // 非级联删除，且有子节点时不可删除：non-sons
             int size = listNodes.size();
-            boolean hasSons = size == 1 && !nodeId.equals(listNodes.get(0).getNodeId()) && !recursion;
-            if (hasSons) {
+            if (size > 1  && !recursion) {
                 throw new ServiceException(String.format("找到%d个子节点，不可删除.", size - 1));
             }
             List<Integer> ids = listNodes.stream().map(ConTreeNodeDO::getNodeId).collect(Collectors.toList());
