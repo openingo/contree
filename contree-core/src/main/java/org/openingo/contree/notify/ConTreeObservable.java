@@ -28,6 +28,7 @@
 package org.openingo.contree.notify;
 
 import lombok.Builder;
+import org.springframework.util.Assert;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -129,6 +130,8 @@ public class ConTreeObservable extends Observable {
      * @param notifyData 通知数据
      */
     private void notifyObservers(NotifyType notifyType, String treeCode, Object notifyData) {
+        Assert.hasText(treeCode, "the treeCode must must not be empty.");
+        Assert.notNull(notifyData, "the notify data must not be null.");
         this.notifyObservers(NotifyData.builder().notifyType(notifyType).treeCode(treeCode).notifyData(notifyData).build());
     }
 

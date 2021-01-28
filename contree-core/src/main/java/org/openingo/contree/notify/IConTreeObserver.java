@@ -28,6 +28,7 @@
 package org.openingo.contree.notify;
 
 import org.openingo.contree.entity.ConTreeNode;
+import org.openingo.jdkits.validate.ValidateKit;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,6 +55,9 @@ public interface IConTreeObserver extends Observer {
     default void update(Observable o, Object arg) {
         if (o instanceof ConTreeObservable) {
             ConTreeObservable.NotifyData notifyData = (ConTreeObservable.NotifyData)arg;
+            if (ValidateKit.isNull(notifyData)) {
+                return;
+            }
             String treeCode = notifyData.treeCode;
             switch (notifyData.notifyType) {
                 case DELETE: {
